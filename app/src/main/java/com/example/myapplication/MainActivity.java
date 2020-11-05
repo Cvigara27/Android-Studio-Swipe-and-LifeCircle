@@ -2,32 +2,49 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
+import androidx.core.view.MotionEventCompat;
 
 import android.app.WallpaperManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements
-        GestureDetector.OnGestureListener,
-        GestureDetector.OnDoubleTapListener{
+public class MainActivity extends AppCompatActivity {
 
     private static final String MainAct = "MainActivity";
-    private GestureDetectorCompat mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDetector = new GestureDetectorCompat(this,this);
-        mDetector.setOnDoubleTapListener(this);
+        ImageView imageView = findViewById(R.id.imageView);
+        imageView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+                                         public void onSwipeTop() {
+                                             Toast.makeText(MainActivity.this, "top", Toast.LENGTH_SHORT).show();
+                                         }
+
+                                         public void onSwipeRight() {
+                                             Toast.makeText(MainActivity.this, "right", Toast.LENGTH_SHORT).show();
+                                         }
+
+                                         public void onSwipeLeft() {
+                                             Toast.makeText(MainActivity.this, "left", Toast.LENGTH_SHORT).show();
+                                         }
+
+                                         public void onSwipeBottom() {
+                                             Toast.makeText(MainActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+                                         }
+                                     });
 
         Log.d("MainActivity", "Hola buenas tardes, esto arranca");
 
@@ -62,86 +79,26 @@ public class MainActivity extends AppCompatActivity implements
     public void onDestroy(){
         super.onDestroy();
         Log.i(MainAct, "Mensaje onDestroy");
-        Toast.makeText(this, "On destroy", Toast.LENGTH_SHORT).show();
     }
 
 
 
     //MOTION EVENT
-    @Override
+    /*@Override
     public boolean onTouchEvent(MotionEvent event){
-        if (this.mDetector.onTouchEvent(event)) {
-            return true;
+
+        int action = MotionEventCompat.getActionMasked(event);
+        Context context = getApplicationContext();
+
+        switch(action) {
+            case (MotionEvent.ACTION_DOWN) :
+                Toast.makeText(context, "On down", Toast.LENGTH_SHORT).show();
+                return true;
+            case (MotionEvent.ACTION_UP) :
+                Toast.makeText(context, "On up", Toast.LENGTH_SHORT).show();
+                return true;
+            default :
+                return super.onTouchEvent(event);
         }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onDown(MotionEvent event) {
-        Toast.makeText(this, "On down", Toast.LENGTH_SHORT).show();
-        Log.i(MainAct, "Mensaje onDown");
-        return true;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent event1, MotionEvent event2,
-                           float velocityX, float velocityY) {
-        Toast.makeText(this, "On fling", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent event) {
-        Toast.makeText(this, "On long press", Toast.LENGTH_SHORT).show();
-        Log.i(MainAct, "Mensaje onLongPress");
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent event1, MotionEvent event2, float distanceX,
-                            float distanceY) {
-        Toast.makeText(this, "On scroll", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent event) {
-        Toast.makeText(this, "On show press", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent event) {
-        Toast.makeText(this, "On single tap up", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent event) {
-        Toast.makeText(this, "On double tap", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent event) {
-        Toast.makeText(this, "On double tap event", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent event) {
-        Toast.makeText(this, "On single tap confirmed", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-
-    public void setWallpaper(){
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.hollow);
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(getApplicationContext());
-
-        try {
-            wallpaperManager.setBitmap(bitmap);
-            Toast.makeText(this, "Wallpaper Changed Successfully", Toast.LENGTH_SHORT).show();
-        }catch (IOException e) {
-            Toast.makeText(this, "An error has occured" ,Toast.LENGTH_SHORT).show();
-        }
-    }
+    }*/
 }

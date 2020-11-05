@@ -29,4 +29,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.396" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/hollow"
+        tools:layout_editor_absoluteX="-202dp"
+        tools:layout_editor_absoluteY="0dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
